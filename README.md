@@ -13,7 +13,7 @@ Die GUI ermöglicht eine Echtzeit-Darstellung von Eingaben, Ausgaben und Prozess
 
  
 ⚙️ Eingabe-Reiter
-![Eingabe Ansicht](images/eingabe.png)
+![Eingabe Ansicht](images/Eingabe.png)
 
 - Einstellung der Regelparameter (Sollgrößen):
   - Kraftregelung
