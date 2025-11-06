@@ -35,6 +35,7 @@ Die GUI ermöglicht eine Echtzeit-Darstellung von Eingaben, Ausgaben und Prozess
  <p align="center">
   <img src="images/Ausgabe.png" alt="Eingabe Ansicht" width="80%">
 </p>
+
 📤 Ausgabe-Reiter
 - Anzeige der Systemwerte (Istgrößen) aus Sensoren:
   - Kraftsensor 1 & 2 (`N`)
@@ -47,6 +48,7 @@ Die GUI ermöglicht eine Echtzeit-Darstellung von Eingaben, Ausgaben und Prozess
 <p align="center">
   <img src="images/Charts.png" alt="Eingabe Ansicht" width="80%">
 </p>
+
 
 📊 Charts-Reiter
 - Echtzeit-Visualisierung der Prozessverläufe:
