@@ -1,0 +1,63 @@
+{% extends 'desktop/desktop_h.html' %}
+
+
+{% load static %}
+
+{% block content %}
+<div class="main-container">
+    <div class="left-container">
+        <h2>System (Istgrößen)</h2>
+        <div class="input-group"><label>Motorposition 1 / mm</label><input type="text" id="MC1iActualPosition_Mc1_str" readonly></div>
+        <div class="input-group"><label>Motorposition 2 / mm</label><input type="text" id="MC2iActualPosition_Mc2_str" readonly></div>
+        <div class="input-group"><label>Trigger</label><input type="text" id="Prozess_aktiv" readonly></div>
+        <div class="input-group"><label>Regelungsstrategie</label><input type="text" id="irs" value="{{ irs }}" readonly></div>
+        <div class="input-group"><label>Verstärkungsfaktor</label><input type="text" id="amp_Kraft" readonly></div>
+    </div>
+    <div class="right-container">
+        <h2>Regelung (Istgrößen)</h2>
+        <div class="input-group"><label>Spalt Taster 1 / mm</label><input type="text" id="sensor1_str" readonly></div>
+        <div class="input-group"><label>Spalt Taster 2 / mm</label><input type="text" id="sensor2_str" readonly></div>
+        <div class="input-group"><label>Spalt Taster 3 / mm</label><input type="text" id="sensor3_str" readonly></div>
+        <div class="input-group"><label>Kraftsensor 1 / N</label><input type="text" id="X1_Kraft_str" readonly></div>
+        <div class="input-group"><label>Kraftsensor 2 / N</label><input type="text" id="X2_Kraft_str" readonly></div>
+
+    </div>
+    
+    <div class="datetime" id="datetime"></div>
+</div>
+
+<script>
+    function updatePLCValues() {
+        fetch('{% url "eingabe_url" %}', {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('sensor1_str').value = data.sensor1_str;
+            document.getElementById('sensor2_str').value = data.sensor2_str;
+            document.getElementById('sensor3_str').value = data.sensor3_str;
+            document.getElementById('X1_Kraft_str').value = data.X1_Kraft_str;
+            document.getElementById('X2_Kraft_str').value = data.X2_Kraft_str;
+            document.getElementById('irs').value = data.irs;
+            document.getElementById('amp_Kraft').value = data.amp_Kraft;
+            document.getElementById('MC1iActualPosition_Mc1_str').value = data.MC1iActualPosition_Mc1_str;
+            document.getElementById('MC2iActualPosition_Mc2_str').value = data.MC2iActualPosition_Mc2_str;
+            document.getElementById('Prozess_aktiv').value = data.Prozess_aktiv;
+        })
+        .catch(error => console.error('Error fetching PLC values:', error));
+    }
+
+    function updateTime() {
+        const now = new Date();
+        const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const formattedDate = now.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+        document.getElementById('datetime').innerHTML = `${formattedTime} ${formattedDate}`;
+    }
+
+    setInterval(updatePLCValues, 1000); // Update PLC values every second
+    setInterval(updateTime, 1000);
+    updateTime(); // initial call to display time immediately
+</script>
+{% endblock %}

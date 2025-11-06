@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'desktop/styles.css' %}">
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home_url' %}">
+            <img src="{% static 'desktop/E4SM_LOGO.png' %}" alt="E4SM_LOGO" class="header-image">
+        </a>
+
+        <div class="container">
+            <button class="custom-button" onclick="location.href='{% url 'ausgabe_url' %}'">Ausgabe</button>
+            <button class="custom-button" onclick="location.href='{% url 'eingabe_url' %}'">Eingabe</button>
+            <button class="custom-button" onclick="location.href='{% url 'charts_url' %}'">Charts</button>
+        </div>
+        <img src="{% static 'desktop/tuil.png' %}" alt="Carl-Zeiss-Stiftung_Logo" class="header-image">
+        
+    </div>
+    <hr class="header-divider">
+
+    {% block content %}
+    <div class="container">
+        <div class="center-text">
+            <p>Aktuelle Projektinformationen finden Sie unter:
+                <br>
+                <a href="https://www.e4sm-projekt.de" class="center-link">https://www.e4sm-projekt.de</a>
+            </p>
+        </div>
+    </div>
+    {% endblock %}
+
+    <div class="right-images">
+        <button class="nothalt-button" onclick="triggerNothalt()">
+            <span class="top">NOT</span>
+            <span class="bottom">HALT</span>
+        </button>
+        <img src="{% static 'desktop/Carl-Zeiss-Stiftung_Logo.png' %}" alt="Image 2" class="body-image image2">
+    </div>
+
+    <script>
+        function triggerNothalt() {
+            fetch("{% url 'nothalt_url' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ nothalt: true })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Nothalt triggered:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    
+</body>
+</html>

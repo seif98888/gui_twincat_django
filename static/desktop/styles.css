@@ -1,0 +1,428 @@
+/* Apply a background color to the body and use Flexbox for centering */
+body {
+    background-color: #09887d;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100 vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style for the header containing images */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the images horizontally */
+    padding: 0;
+    margin-top: 0; /* Adjust top spacing */
+    margin-bottom: 0; /* Adjust bottom spacing */
+    gap: 5vw; /* Space between the images */
+    position: absolute;
+    top: 1vh;
+}
+
+/* Style for header images */
+.header-image {
+    height: 15vh; /* Adjust height as needed */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+
+/* Style the buttons to make them larger and more prominent */
+.custom-button {
+    background-color: #11cdee;
+    border-radius: 1vw; /* 10px equivalent */
+    padding: 2vw 4vw; /* Adjust padding */
+    font-size: 1.5vw; /* Adjust font size */
+    cursor: pointer;
+    box-shadow: 0.5vw 0.5vw 1vw rgba(0, 0, 0, 0.1); /* Adjust shadow */
+    transition: background-color 0.3s ease;
+    margin-top: 1.5vh;
+}
+
+/* Change background color on hover */
+.custom-button:hover {
+    background-color: #09887d;
+}
+
+/* Change border color on focus */
+.custom-button:focus {
+    outline: none;
+    border-color: blue;
+}
+
+/* Style for the horizontal line after the header */
+.header-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ffffff; /* Thin white line */
+    margin: 0; /* Remove default margin */
+    position: absolute; 
+    top: 20vh; /* Adjust top position to place below the header */
+    z-index: 1000; /* Ensure it stays above other elements */
+    left: 0; /* Ensure it spans the full width */
+}
+
+/* Style for the center text container */
+.center-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%; /* Full height of the container */
+    text-align: center; /* Center align text */
+    font-size: 2vw; /* Adjust font size */
+    color: white; /* Set text color */
+    margin-top: 40vh; /* Adjust margin */
+}
+
+.center-link {
+    color: white; /* Set link color */
+    text-decoration: none; /* Remove underline from link */
+    font-size: 1.5vw; /* Adjust font size */
+}
+
+.center-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Style for the images on the right side */
+.right-images {
+    position: absolute;
+    right: 2vw; /* Adjust distance from the right edge */
+    top: 35vh; /* Adjust vertical position */
+    display: flex;
+    flex-direction: column;
+    gap: 15vh; /* Space between the images */
+}
+
+.image1 {
+    width: 10vw; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.image2 {
+    width: 10vw; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 2vw; /* Adjust margin */
+}
+
+.main-container {
+    display: flex;
+    gap: 3vw; /* Space between the left and right containers */
+    padding: 5vw;
+}
+
+/* Styles for the left and right containers */
+.left-container {
+    flex: 1; /* Equal width for both containers */
+    margin-top: 18vh;
+    padding: 0.5vw;
+    border: 1vw solid #11cdee;
+    border-radius: 1vw;
+    background-color: #11cdee;
+    color: white;
+    
+}
+
+
+.right-container {
+    flex: 1; /* Equal width for both containers */
+    margin-top: 18vh;
+    padding: 0.5vw;
+    border: 1vw solid #11cdee;
+    border-radius: 1vw;
+    background-color: #11cdee;
+    color: white;
+    
+}
+.left-container h2, .right-container h2 {
+    font-size: 2.1rem; 
+}
+
+.datetime {
+    position: absolute;
+    bottom: 2vh; /* Adjust bottom position */
+    right: 2vw; /* Adjust right position */
+    font-size: 1.5vw; /* Adjust font size */
+    color: #333;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    width: 100%;
+    justify-content: space-between
+}
+
+.input-group label {
+    min-width: 1vw;
+    font-size: 1.5vw;
+    text-align: left; /* Align text to the left */
+    margin-right: 1vw; /* Push the label to the left */
+}
+
+.input-group input[type="text"] {
+    padding: 0.5vw;
+    border: 1px solid #ccc;
+    border-radius: 0.5vw;
+    width: 10vw;
+    background-color: #f6f4f4;
+    color: rgb(16, 15, 15);
+    font-size: 1.75vw;
+}
+
+.input-group input[type="text"][readonly] {
+    font-size: 1.75vw;
+    color: rgb(16, 15, 15);
+    background-color: #afafb3;
+    cursor: not-allowed;
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 4vw; /* Adjust the width */
+    height: 1.2vw; /* Adjust the height */
+   /* margin-left: 2vw;*/
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.8s;
+    border-radius: 1    vw; /* Make it rounded */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.2vw; /* Adjust the height */
+    width: 1.2vw; /* Adjust the width */
+    left: 0.2vw;
+    bottom: 0.2vw;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%; /* Make it rounded */
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 0.1vw #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(2.5vw); /* Adjust based on the width */
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 1.6vw;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.dropdown {
+    padding: 1vw; /* Adjust padding */
+    border: 1px solid #ccc;
+    border-radius: 0.5vw; /* Adjust border radius */
+    width: 11vw; /* Adjust width */
+    font-size: 1.75vw;
+}
+
+.charts-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2vw; /* Adjust padding */
+    padding-top: 30vh; /* Adjust padding top */
+    background-color: #09887d;
+}
+
+.chart-box {
+    background-color: white;
+    border-radius: 1vw; /* Adjust border radius */
+    padding: 2vw; /* Adjust padding */
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1); /* Adjust shadow */
+}
+
+.chart-box h2 {
+    text-align: center;
+    color: white;
+    background-color: #09887d;
+    margin: -2vw -2vw 2vw -2vw; /* Adjust margin */
+    padding: 1vw; /* Adjust padding */
+    border-radius: 1vw 1vw 0 0; /* Adjust border radius */
+}
+
+canvas {
+    width: 50vw; /* Adjust width */
+    height: 33vw; /* Adjust height */
+}
+
+.input-group button[type="submit"] {
+    padding: 0.5vw 1.5vw; /* Adjust padding to make the button bigger */
+    font-size: 1vw; /* Increase font size */
+    background-color: #11cdee; /* Ensure background color matches your theme */
+    border: none; /* Remove border if any */
+    border-radius: 0.5vw; /* Add border radius for rounded corners */
+    cursor: pointer; /* Add cursor pointer for better UX */
+    transition: background-color 0.3s ease; /* Add transition for hover effect */
+    margin-left: 4.5vw;
+    margin-top: -2.5vw;
+}
+
+/* Change background color on hover */
+.input-group button[type="submit"]:hover {
+    background-color: #09887d;
+}
+
+/* Style for the Nothalt button */
+.nothalt-button {
+    background-color: yellow;
+    border: 0.2vw solid black; /* Adjust border */
+    border-radius: 50%;
+    width: 10vw; /* Adjust width */
+    height: 10vw; /* Adjust height */
+    position: relative;
+    font-size: 1vw; /* Adjust font size */
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.1); /* Adjust shadow */
+}
+
+.nothalt-button::before {
+    content: "";
+    background-color: red;
+    border-radius: 50%;
+    width: 5vw; /* Adjust width */
+    height: 5vw; /* Adjust height */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.nothalt-button span {
+    position: relative;
+    z-index: 1;
+}
+
+.nothalt-button span.top {
+    position: absolute;
+    top: 1vw; /* Adjust position */
+}
+
+.nothalt-button span.bottom {
+    position: absolute;
+    bottom: 1vw; /* Adjust position */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .custom-button {
+        padding: 1.5vw 3vw; /* Adjust padding for medium screens */
+        font-size: 1.25vw; /* Adjust font size for medium screens */
+    }
+
+    .header-image {
+        height: 12vh; /* Adjust height for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-button {
+        padding: 1vw 2vw; /* Adjust padding for small screens */
+        font-size: 1vw; /* Adjust font size for small screens */
+    }
+
+    .header {
+        flex-direction: column; /* Stack images vertically for small screens */
+        gap: 2vh; /* Adjust gap for small screens */
+    }
+
+    .header-image {
+        height: 10vh; /* Adjust height for small screens */
+    }
+
+    .center-text {
+        font-size: 2.5vw; /* Adjust font size for small screens */
+        margin-top: 15vh; /* Adjust margin for small screens */
+    }
+
+    .right-images {
+        top: 30vh; /* Adjust vertical position for small screens */
+        gap: 10vh; /* Adjust gap for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column; /* Stack buttons vertically for very small screens */
+        gap: 2vh; /* Reduce gap between buttons */
+    }
+
+    .custom-button {
+        padding: 1vw 2vw; /* Adjust padding for very small screens */
+        font-size: 1vw; /* Adjust font size for very small screens */
+    }
+
+    .header-image {
+        height: 8vh; /* Adjust height for very small screens */
+    }
+
+    .center-text {
+        font-size: 2vw; /* Adjust font size for very small screens */
+        margin-top: 10vh; /* Adjust margin for very small screens */
+    }
+
+    .right-images {
+        top: 25vh; /* Adjust vertical position for very small screens */
+        gap: 8vh; /* Adjust gap for very small screens */
+    }
+
+    .nothalt-button {
+        width: 15vw; /* Adjust width */
+        height: 15vw; /* Adjust height */
+        font-size: 1.25vw; /* Adjust font size */
+    }
+
+    .nothalt-button::before {
+        width: 7.5vw; /* Adjust width */
+        height: 7.5vw; /* Adjust height */
+    }
+
+    .nothalt-button span.top,
+    .nothalt-button span.bottom {
+        font-size: 1.25vw; /* Adjust font size */
+    }
+}

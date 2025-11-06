@@ -1,0 +1,275 @@
+{% extends 'desktop/desktop_h.html' %}
+
+{% load static %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="charts-container">
+    <div class="chart-box">
+        <h2>Spalt über Schweißzeit</h2>
+        <canvas id="chart1"></canvas>
+    </div>
+    <div class="chart-box">
+        <h2>Kraft über Schweißzeit</h2>
+        <canvas id="chart2"></canvas>
+    </div>
+</div>
+
+<script>
+    let chartsInitialized = false;
+    let isRecording = false;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeCharts(); // Initialize charts on page load
+        fetchRecordedData(); // Fetch recorded data on page load
+        setInterval(checkTriggerAndFetchData, 1000); // Check the trigger every second
+    });
+
+    function checkTriggerAndFetchData() {
+        fetch("{% url 'check_trigger_url' %}") // URL to check the boolean value
+            .then(response => response.json())
+            .then(data => {
+                if (data.trigger) {
+                    if (!isRecording) {
+                        isRecording = true;
+                        resetChartData(); // Reset data when the trigger changes to true
+                        fetchRecordedData(); // Fetch recorded data on trigger change
+                    }
+                    fetchChartData(); // Fetch data and draw lines if the trigger is true
+                } else {
+                    isRecording = false; // Pause updating the charts if the trigger is false
+                }
+            })
+            .catch(error => console.error('Error checking trigger:', error));
+    }
+
+    function fetchRecordedData() {
+        fetch("{% url 'get_recorded_data_url' %}")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched recorded data:", data); // Debugging line
+                data.recorded_data.forEach(record => {
+                    updateChart(chart1, record.time, [record.soll_spalt, record.sensor1_str, record.sensor3_str], chartData1);
+                    updateChart(chart2, record.time, [record.soll_kraft, record.kraft_sensor1, record.kraft_sensor2, record.KI_1, record.KI_2], chartData2);
+                });
+            })
+            .catch(error => console.error('Error fetching recorded data:', error));
+    }
+
+    function fetchChartData() {
+        if (!isRecording) return; // If not recording, do not fetch new data
+        fetch("{% url 'chart_data_url' %}")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched data:", data); // Debugging line
+                updateChart(chart1, data.time, [data.soll_spalt, data.sensor1_str, data.sensor3_str], chartData1);
+                updateChart(chart2, data.time, [data.soll_kraft, data.kraft_sensor1, data.kraft_sensor2, data.KI_1, data.KI_2], chartData2);
+            })
+            .catch(error => console.error('Error fetching chart data:', error));
+    }
+
+    let chart1, chart2;
+    let chartData1 = {
+        labels: [],
+        datasets: [
+            {
+                label: 'Soll Spalt',
+                data: [],
+                borderColor: 'rgba(0, 0, 0, 1)', // Black color
+                borderWidth: 2, // Make the line thicker
+                borderDash: [10, 5], // Make the line dotted
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+            {
+                label: 'Sensor 1',
+                data: [],
+                borderColor: 'rgba(0, 0, 255, 1)', // Blue color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+        
+            {
+                label: 'Sensor 3',
+                data: [],
+                borderColor: 'rgba(255, 0, 0, 1)', // Orange color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            }
+        ]
+    };
+
+    let chartData2 = {
+        labels: [],
+        datasets: [
+            {
+                label: 'Soll Kraft',
+                data: [],
+                borderColor: 'rgba(0, 0, 0, 1)', // Black color
+                borderWidth: 2, // Make the line thicker
+                borderDash: [10, 5], // Make the line dotted
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+            {
+                label: 'Kraft Sensor 1',
+                data: [],
+                borderColor: 'rgba(0, 255, 0, 1)', // Green color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+            {
+                label: 'Kraft Sensor 2',
+                data: [],
+                borderColor: 'rgba(0, 123, 0, 1)', // Green color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+            {
+                label: 'KI 1',
+                data: [],
+                borderColor: 'rgba(255, 0, 0, 1)', // Red color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            },
+            {
+                label: 'KI 2',
+                data: [],
+                borderColor: 'rgba(255, 165, 0, 1)', // Orange color
+                borderWidth: 2, // Make the line thicker
+                fill: false,
+                pointRadius: 0, // Remove points
+                pointHoverRadius: 0 // Remove hover points
+            }
+        ]
+    };
+
+    function initializeCharts() {
+        var ctx1 = document.getElementById('chart1').getContext('2d');
+        chart1 = new Chart(ctx1, {
+            type: 'line',
+            data: chartData1,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Zeit in s',
+                            font: {
+                            size: 24 // Adjust font size here
+                        }
+                        },
+                        ticks: {
+                            stepSize: 1, // Display a tick every second
+                            font: {
+                            size: 16 // Adjust font size here
+                        },
+                            callback: function(value, index, values) {
+                                return value; // Show 0, 1, 2, 3, ...
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Spalt in mm',
+                            font: {
+                            size: 24 // Adjust font size here
+                        }
+                        }
+                        ,
+                        ticks: {
+                            font: {
+                                size: 16 // Adjust font size here
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('chart2').getContext('2d');
+        chart2 = new Chart(ctx2, {
+            type: 'line',
+            data: chartData2,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Zeit in s',
+                            font: {
+                            size: 24 // Adjust font size here
+                        }
+                        },
+                        ticks: {
+                            stepSize: 1, // Display a tick every second
+                            font: {
+                            size: 16 // Adjust font size here
+                        },
+                            callback: function(value, index, values) {
+                                return value; // Show 0, 1, 2, 3, ...
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Kraft in N',
+                            font: {
+                            size: 24 // Adjust font size here
+                        }
+                        },
+                        
+                        ticks: {
+                            font: {
+                                size: 16 // Adjust font size here
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateChart(chart, label, data, chartData) {
+        chartData.labels.push(label);
+        chartData.datasets.forEach((dataset, index) => {
+            dataset.data.push(data[index]);
+        });
+        console.log("Updated chart data:", chartData); // Debugging line
+        if (chartData.labels.length > 1000) { // Limit to last 1000 points for performance
+            chartData.labels.shift();
+            chartData.datasets.forEach(dataset => dataset.data.shift());
+        }
+        chart.update();
+    }
+
+    function resetChartData() {
+        chartData1.labels = [];
+        chartData1.datasets.forEach(dataset => {
+            dataset.data = [];
+        });
+        chart1.update();
+
+        chartData2.labels = [];
+        chartData2.datasets.forEach(dataset => {
+            dataset.data = [];
+        });
+        chart2.update();
+    }
+</script>
+
+{% endblock %}

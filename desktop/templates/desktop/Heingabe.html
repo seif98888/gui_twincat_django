@@ -1,0 +1,78 @@
+{% extends 'desktop/desktop_h.html' %}
+
+{% load static %}
+
+{% block content %}
+<form method="post" action="{% url 'eingabe_url' %}">
+    {% csrf_token %}
+    <div class="main-container">
+        <div class="left-container">
+            <h2>Schaltfunktionen
+            </h2>
+            <div class="input-group">
+                <label>Motoren ein/aus</label>
+                <label class="switch">
+                    <input type="checkbox" name="start_stopp" id="start_stopp" {% if start_stopp %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="input-group">
+                <label>Home-/Workposition</label>
+                <label class="switch">
+                    <input type="checkbox" name="motoren_zustand" id="motoren_zustand" {% if motoren_zustand %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="input-group">
+                <label>Interner Trigger</label>
+                <label class="switch">
+                    <input type="checkbox" name="prozess_aktiv" id="prozess_aktiv" {% if prozess_aktiv %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="right-container">
+            <h2>Regelung (Sollgrößen)
+            </h2>
+            <div class="input-group">
+                <label for="dropdown1">Regelungsstrategie</label>
+                <select class="dropdown" name="dropdown1" id="dropdown1">
+                    <option value="MAN" {% if irs_value == 0 %}selected{% endif %}>MAN</option>
+                    <option value="AKR" {% if irs_value == 1 %}selected{% endif %}>AKR</option>
+                    <option value="RKR" {% if irs_value == 2 %}selected{% endif %}>RKR</option>
+                    <option value="LRE" {% if irs_value == 3 %}selected{% endif %}>LRE</option>
+                    <option value="KLU" {% if irs_value == 4 %}selected{% endif %}>KLU</option>
+                    <option value="LKU" {% if irs_value == 5 %}selected{% endif %}>LKU</option>
+                    <option value="KRU" {% if irs_value == 6 %}selected{% endif %}>KRU</option>
+                    <option value="KRu" {% if irs_value == 7 %}selected{% endif %}>KRu</option>
+                    <option value="KI" {% if irs_value == 8 %}selected{% endif %}>KI</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="sollkraft">Sollkraft / N</label>
+                <input type="text" id="sollkraft" name="sollkraft" value="{{ sollkraft }}">
+            </div>
+            <div class="input-group">
+                <label for="umschaltwert">Umschaltwert</label>
+                <input type="text" id="umschaltwert" name="umschaltwert" value="{{ umschaltwert }}">
+            </div>
+            <div class="input-group">
+                <label for="verstaerkungsfaktor">Verstärkungsfaktor</label>
+                <input type="text" id="verstaerkungsfaktor" name="verstaerkungsfaktor" value="{{ verstaerkungsfaktor }}">
+            </div>
+
+            <div class="input-group">
+                <label>Sollspalt / mm</label>
+                <input type="text" name="sollspalt" value="{{ sollspalt }}">
+            </div>
+
+        </div>
+    </div>
+    <div class="input-group">
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+{% endblock %}
